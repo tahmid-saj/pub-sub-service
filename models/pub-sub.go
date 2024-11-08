@@ -1,6 +1,9 @@
 package models
 
-import notification "pub-sub-service/sns"
+import (
+	"log"
+	notification "pub-sub-service/sns"
+)
 
 type CreateTopicInput struct {
 	TopicName string `json:"topicName"`
@@ -25,6 +28,7 @@ type PublishMessageInput struct {
 func ListTopics() (*Response, error) {
 	res, err := notification.ListTopics()
 	if err != nil {
+		log.Println(err)
 		return &Response{
 			Ok: false,
 			Response: nil,
@@ -40,6 +44,7 @@ func ListTopics() (*Response, error) {
 func CreateTopic(createTopicInput CreateTopicInput) (*Response, error) {
 	res, err := notification.CreateTopic(createTopicInput.TopicName)
 	if err != nil {
+		log.Println(err)
 		return &Response{
 			Ok: false,
 			Response: nil,
@@ -55,6 +60,7 @@ func CreateTopic(createTopicInput CreateTopicInput) (*Response, error) {
 func ListSubscriptions(topicARN string) (*Response, error) {
 	res, err := notification.ListSubscriptions(&topicARN)
 	if err != nil {
+		log.Println(err)
 		return &Response{
 			Ok: false,
 			Response: nil,
@@ -70,6 +76,7 @@ func ListSubscriptions(topicARN string) (*Response, error) {
 func SubscribeEmailToTopic(topicARN string, subscribeEmailToTopicInput SubscribeEmailToTopicInput) (*Response, error) {
 	res, err := notification.SubscribeEmailToTopic(&subscribeEmailToTopicInput.Email, &topicARN)
 	if err != nil {
+		log.Println(err)
 		return &Response{
 			Ok: false,
 			Response: nil,
@@ -85,6 +92,7 @@ func SubscribeEmailToTopic(topicARN string, subscribeEmailToTopicInput Subscribe
 func SubscribeQueueToTopic(topicARN string, subscribeQueueToTopicInput SubscribeQueueToTopicInput) (*Response, error) {
 	res, err := notification.SubscribeQueueToTopic(subscribeQueueToTopicInput.QueueName, &topicARN)
 	if err != nil {
+		log.Println(err)
 		return &Response{
 			Ok: false,
 			Response: nil,
@@ -100,6 +108,7 @@ func SubscribeQueueToTopic(topicARN string, subscribeQueueToTopicInput Subscribe
 func UnsubscribeFromTopic(topicARN string, unsubscribeFromTopicInput UnsubscribeFromTopicInput) (*Response, error) {
 	res, err := notification.UnsubscribeFromTopic(&unsubscribeFromTopicInput.SubscriptionID, &topicARN)
 	if err != nil {
+		log.Println(err)
 		return &Response{
 			Ok: false,
 			Response: nil,
@@ -115,6 +124,7 @@ func UnsubscribeFromTopic(topicARN string, unsubscribeFromTopicInput Unsubscribe
 func PublishMessageToAllTopicSubscribers(topicARN string, message PublishMessageInput) (*Response, error) {
 	res, err := notification.PublishMessageToAllTopicSubscribers(&message.Message, &topicARN)
 	if err != nil {
+		log.Println(err)
 		return &Response{
 			Ok: false,
 			Response: nil,
