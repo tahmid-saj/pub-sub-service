@@ -1,6 +1,11 @@
 package main
 
 import (
+	"os"
+	"pub-sub-service/routes"
+
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -92,4 +97,12 @@ func main() {
 	// 	return
 	// }
 	// fmt.Println(publishOutput)
+
+	godotenv.Load()
+
+	server := gin.Default()
+
+	routes.RegisterRoutes(server)
+
+	server.Run(os.Getenv("PORT"))
 }
