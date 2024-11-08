@@ -37,6 +37,21 @@ func ListTopics() (*Response, error) {
 	}, nil
 }
 
+func CreateTopic(createTopicInput CreateTopicInput) (*Response, error) {
+	res, err := notification.CreateTopic(createTopicInput.TopicName)
+	if err != nil {
+		return &Response{
+			Ok: false,
+			Response: nil,
+		}, err
+	}
+
+	return &Response{
+		Ok: true,
+		Response: res,
+	}, nil
+}
+
 func ListSubscriptions(topicARN string) (*Response, error) {
 	res, err := notification.ListSubscriptions(&topicARN)
 	if err != nil {
