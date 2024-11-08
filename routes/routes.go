@@ -4,23 +4,23 @@ import "github.com/gin-gonic/gin"
 
 func RegisterRoutes(server *gin.Engine) {
 	// ListTopics
-	server.GET("/topics")
+	server.GET("/topics", listTopics)
 
 	// CreateTopic
-	server.POST("/topics")
+	server.POST("/topics", createTopic)
 
 	// ListSubscriptions
-	server.POST("/topics/:topicARN/subscriptions")
+	server.POST("/topics/:topicARN/subscriptions", listSubscriptions)
 
 	// SubscribeEmailToTopic
-	server.PUT("/topics/:topicARN/subscribe/email")
+	server.PUT("/topics/:topicARN/subscribe/email", subscribeEmailToTopic)
 
 	// SubscribeQueueToTopic
-	server.PUT("/topics/:topicARN/subscribe/queue")
+	server.PUT("/topics/:topicARN/subscribe/queue", subscribeQueueToTopic)
 
 	// UnsubscribeFromTopic
-	server.PUT("/topics/:topicARN/unsubscribe")
+	server.PUT("/topics/:topicARN/unsubscribe", unsubscribeFromTopic)
 
 	// PublishMessageToAllTopicSubscribers
-	server.POST("/topics/:topicARN")
+	server.POST("/topics/:topicARN", publishMessageToAllTopicSubscribers)
 }
