@@ -10,7 +10,7 @@ func RegisterRoutes(server *gin.Engine) {
 	server.POST("/topics", createTopic)
 
 	// ListSubscriptions
-	server.POST("/topics/:topicARN/subscriptions", listSubscriptions)
+	server.GET("/topics/:topicARN/subscriptions", listSubscriptions)
 
 	// SubscribeEmailToTopic
 	server.PUT("/topics/:topicARN/subscribe/email", subscribeEmailToTopic)
