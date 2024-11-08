@@ -182,6 +182,31 @@ func SubscribeQueueToTopic(queueName string, topicPtr *string) (bool, error) {
   return true, nil
 }
 
+func UnsubscribeFromTopic(subscriptionID, topicPtr *string) (bool, error) {
+  if subscriptionID == nil || topicPtr == nil || *subscriptionID == "" || *topicPtr == "" {
+    return false, errors.New("must supply both a subscription ID and topic ARN")
+  }
+
+  // Initialize a session to load AWS credentials and configuration from the shared config.
+  sess := session.Must(session.NewSessionWithOptions(session.Options{
+    SharedConfigState: session.SharedConfigEnable,
+  }))
+
+  // Create SNS client
+  svc := sns.New(sess)
+
+  // Unsubscribe the given subscription ID
+  _, err := svc.Unsubscribe(&sns.UnsubscribeInput{
+    SubscriptionArn: subscriptionID,
+  })
+
+  if err != nil {
+    return false, fmt.Errorf("failed to unsubscribe from topic %s with subscription ID %s: %v", *topicPtr, *subscriptionID, err)
+  }
+
+  log.Printf("Successfully unsubscribed from topic %s with subscription ID %s", *topicPtr, *subscriptionID)
+  return true, nil
+}
 
 func PublishMessageToAllTopicSubscribers(messagePtr *string, topicPtr *string) (*sns.PublishOutput, error) {
   if messagePtr == nil || topicPtr == nil || *messagePtr == "" || *topicPtr == "" {
